@@ -8,6 +8,8 @@ adduser $myuser --gecos "First Last,RoomNumber,WorkPhone,HomePhone" --disabled-p
 echo "$myuser:$userpass" | sudo chpasswd
 usermod -aG sudo $myuser
 
+sudo cp vncserver@.service /etc/systemd/system/
+sudo cp xstartup /home/$myuser/.vnc/
 sudo -i -u $myuser -H sh -c "cd /home/$myuser"
 
 sudo apt-get update -y
@@ -16,18 +18,14 @@ sudo apt install xfce4 xfce4-goodies tightvncserver -y
 
 mkdir /home/$myuser/.vnc
 echo $vncpass | vncpasswd -f > /home/$myuser/.vnc/passwd
-cp xstartup /home/$myuser/.vnc/
 chown -R $myuser:$myuser /home/$myuser/.vnc
 chmod 0600 /home/$myuser/.vnc/passwd
 chmod +x /home/$myuser/.vnc/xstartup
 
-sudo cp vncserver@.service /etc/systemd/system/
 
 sudo systemctl daemon-reload
 sudo systemctl enable vncserver@1.service
 sudo systemctl start vncserver@1
-cp xstartup /home/$myuser/.vnc/
-sudo systemctl restart vncserver@1
 
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
