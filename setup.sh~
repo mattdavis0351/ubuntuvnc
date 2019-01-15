@@ -9,7 +9,7 @@ echo "$myuser:$userpass" | sudo chpasswd
 usermod -aG sudo $myuser
 
 sudo cp vncserver@.service /etc/systemd/system/
-sudo cp xstartup /home/$myuser
+sudo cp xstartup /home/$myuser/.vnc/
 sudo -i -u $myuser -H sh -c "cd /home/$myuser"
 
 sudo apt-get update -y
@@ -26,10 +26,6 @@ chmod +x /home/$myuser/.vnc/xstartup
 sudo systemctl daemon-reload
 sudo systemctl enable vncserver@1.service
 sudo systemctl start vncserver@1
-
-cp /home/$myuser/xstartup /home/$myuser/.vnc
-sudo systemctl restart vncserver@1
-
 
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
