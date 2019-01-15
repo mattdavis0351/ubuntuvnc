@@ -38,3 +38,4 @@ apt-mark hold docker-ce kubelet kubeadm kubectl
 echo "net.bridge.bridge-nf-call-iptables=1" | tee -a /etc/sysctl.conf
 sysctl -p
 
+usermod -aG docker student
